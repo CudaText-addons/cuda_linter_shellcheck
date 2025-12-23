@@ -1,0 +1,23 @@
+[info]
+title=Linter for Bash, using ShellCheck
+desc=Lints Bash/Shell scripts using ShellCheck
+type=cudatext-plugin
+subdir=cuda_linter_shellcheck
+homepage=https://github.com/CudaText-addons/cuda_linter_shellcheck
+
+[item1]
+section=events
+events=on_lexer,on_open
+lexers=Bash script
+
+[item3]
+section=commands
+caption=ShellCheck\Config
+method=config
+menu=o
+
+[item4]
+section=commands
+caption=ShellCheck\Help
+method=help
+menu=o
