@@ -1,3 +1,9 @@
+2025.12.27
++ add: version detection in help dialog (displays installed ShellCheck version)
+* change: plugin renamed from cuda_linter_shellcheck to cuda_lint_shellcheck
+* change: code improvements following Ruff plugin patterns (walrus operator, guard clauses)
+* change: bundled executable path from 'ShellCheck' to 'tools/ShellCheck'
+
 2025.12.23
 + add: console messages now use NOTE:/ERROR: prefixes for proper colorization in CudaText console
 * change: syntax limited to 'Bash script' (only existing Bash lexer in CudaText)

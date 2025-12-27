@@ -2,8 +2,8 @@
 title=Linter for Bash, using ShellCheck
 desc=Lints Bash/Shell scripts using ShellCheck
 type=cudatext-plugin
-subdir=cuda_linter_shellcheck
-homepage=https://github.com/CudaText-addons/cuda_linter_shellcheck
+subdir=cuda_lint_shellcheck
+homepage=https://github.com/CudaText-addons/cuda_lint_shellcheck
 
 [item1]
 section=events

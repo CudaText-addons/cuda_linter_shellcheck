@@ -64,7 +64,7 @@ class ShellCheck(Linter):
         try:
             base = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
             exe = 'shellcheck.exe' if os.name == 'nt' else 'shellcheck'
-            bundled = os.path.join(base, 'ShellCheck', exe)
+            bundled = os.path.join(base, 'tools', 'ShellCheck', exe)
 
             if os.path.isfile(bundled):
                 print(f"ShellCheck: Using bundled version: {bundled}")
@@ -171,6 +171,26 @@ class ShellCheck(Linter):
         _, ext = os.path.splitext(self.filename)
         return super().tmpfile(cmd, code, ext or '.sh')
 
+    def _get_shellcheck_version(self):
+        """Get ShellCheck version for diagnostics."""
+        if not self.shellcheck_path:
+            return None
+
+        try:
+            import subprocess
+            result = subprocess.run(
+                [self.shellcheck_path, '--version'],
+                capture_output=True,
+                text=True,
+                timeout=5
+            )
+            if result.returncode == 0:
+                # Output format: "version: 0.11.0" on 2nd line
+                return result.stdout.strip().split()[-1]
+        except Exception:
+            pass
+
+        return None
 
 class Command:
     """Menu commands for ShellCheck plugin."""
@@ -206,11 +226,20 @@ class Command:
                 print(f"ERROR: Failed to create ShellCheck config: {e}")
                 return
 
-        file_open(path)
-        print(f"ShellCheck: Opened config file: {path}")
+        if file_open(path):
+            print(f"ShellCheck: Opened config file: {path}")
+        else:
+            msg_box(f"Failed to open config file:\n{path}", MB_OK | MB_ICONWARNING)
 
     def help(self):
         """Display plugin help."""
+        linter = ShellCheck(ed)
+        version_info = ""
+        if linter.shellcheck_path:
+            version = linter._get_shellcheck_version()
+            if version:
+                version_info = f"INSTALLED VERSION:\nShellCheck {version}\n\n"
+
         msg_box(
             "ShellCheck Linter for CudaText\n\n"
             "FEATURES:\n"
@@ -226,9 +255,10 @@ class Command:
             "- SC2086: quote to prevent word splitting\n"
             "- SC2046: quote command substitutions\n\n"
             "INSTALLATION:\n"
-            "- Windows: Download shellcheck.exe from releases\n"
+            "- Windows: Download shellcheck.exe from releases, place in tools/ShellCheck folder\n"
             "- Linux: sudo apt install shellcheck\n"
             "- macOS: brew install shellcheck\n\n"
+            f"{version_info}"
             "DOCUMENTATION:\n"
             "https://github.com/koalaman/shellcheck/wiki",
             MB_OK

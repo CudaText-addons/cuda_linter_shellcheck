@@ -6,7 +6,8 @@ It uses "ShellCheck".
 
 ShellCheck is a static analysis tool for shell scripts:
 https://github.com/koalaman/shellcheck
-For example, to install it on Windows, download shellcheck.exe from GitHub releases and place it in ShellCheck folder inside CudaText directory.
+
+For example, to install it on Windows, download shellcheck.exe from GitHub releases and place it in tools/ShellCheck folder inside CudaText directory.
 On Linux: sudo apt install shellcheck
 On Mac: brew install shellcheck
 
